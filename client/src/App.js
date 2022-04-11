@@ -1,14 +1,20 @@
 import React, { Component } from "react";
-import SimpleStorageContract from "./contracts/SimpleStorage.json";
+import WillContract from "./contracts/Will.json";
 import getWeb3 from "./getWeb3";
 
-import BeneficiaryList from "./components/beneficiary_list";
+import add_beneficiary from "./components/add_beneficiary";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
-  state = { storageValue: 0, web3: null, accounts: null, contract: null };
+  state = { 
+    owner: "",
+    address_array: [],
+    beneficiaries: [],
+    web3: null, 
+    accounts: null, 
+    contract: null };
 
   componentDidMount = async () => {
     try {
@@ -20,17 +26,20 @@ class App extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = SimpleStorageContract.networks[networkId];
-      const instance = new web3.eth.Contract(
-        SimpleStorageContract.abi,
+      const deployedNetwork = WillContract.networks[networkId];
+      const contract = new web3.eth.Contract(
+        WillContract.abi,
         deployedNetwork && deployedNetwork.address,
+        //deployedNetwork.address,
       );
-      console.log(deployedNetwork)
+      contract.options.address = deployedNetwork.address
+      const owner = await contract.methods.owner().call();
+      //const address_array = await WillContract.abi.address_array;
+      //const beneficiaries = await WillContract.abi.beneficiaries;
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
-      console.log(this.state)
+      this.setState({owner: owner, web3: web3, accounts: accounts, contract: contract }, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -42,18 +51,11 @@ class App extends Component {
   };
 
   runExample = async () => {
-    const { accounts, contract } = this.state;
+    //const { accounts, contract } = this.state;
+
     console.log(this.state)
-
-    // Stores a given value, 5 by default.
-    await contract.methods.set(13).send({ from: accounts[0] });
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.methods.get().call();
-
-    // Update state with the result.
-    this.setState({ storageValue: response });
   };
+
 
   render() {
     if (!this.state.web3) {
@@ -61,12 +63,24 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <BeneficiaryList />
+        <BeneficiaryList 
+          owner = {this.state.owner}
+          contract = {this.state.contract}
+          onAddBen = {this.onAddBen()}
+        />
         <div>
-          <Actions />
+        <Actions 
+          owner = {this.state.owner}
+          contract = {this.state.contract}
+          beneficiaries = {this.state.beneficiaries}
+        />
         </div>
         <div>
-          <Assets />
+        <Assets 
+          owner = {this.state.owner}
+          contract = {this.state.contract}
+          beneficiaries = {this.state.beneficiaries}
+        />
         </div>
 
       </div>
