@@ -6,6 +6,7 @@ import add_beneficiary from "./components/add_beneficiary";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Add_Beneficiary from "./components/add_beneficiary";
 
 class App extends Component {
   state = { 
@@ -63,10 +64,9 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <BeneficiaryList 
+        <Add_Beneficiary
           owner = {this.state.owner}
           contract = {this.state.contract}
-          onAddBen = {this.onAddBen()}
         />
         <div>
         <Actions 

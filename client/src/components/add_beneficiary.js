@@ -62,7 +62,7 @@ class Add_Beneficiary extends Component {
         this.setState({ loading: true, errorMessage: "" });
 
         await this.props.contract.methods.addBeneficiary(name, address).send({
-            from: this.children.props.owner
+            from: this.props.owner
         })
 
         this.setState({ loading: false });
