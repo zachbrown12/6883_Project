@@ -3,6 +3,7 @@
     "@truffle/hdwallet-provider": "^2.0.5",
     "ganache-cli": "^6.12.2",
     "mocha": "^9.2.2",
+    "truffle-hdwallet-provider": "^1.0.17",
     "web3": "^1.7.3"
   },
   "scripts": {

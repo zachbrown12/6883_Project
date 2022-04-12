@@ -30,42 +30,54 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
   
-  code {
+code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
   
-  .assets {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
-    text-align: right;    
-    margin-right: 500px;
-    float: right
-  }
-  
-  .actions {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
-    text-align: left;    
-    margin-left: 500px;
-    float: left
-  }
-  
-  .bullets {
+.bullets {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;  
   }
   
-  .add-b {
+.add-b {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;  
-      margin-right: 500px;
-      margin-left: 500px;
+      margin: auto;
+      width: 75%;
+      border: 3px solid black;
+      padding: 10px;
   }
 
-  .b-list {
+.add-b-form {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;  
-      margin-right: 600px;
-      margin-left: 600px;
+      margin-right: auto;
+      margin-left: auto;
+      padding: 10px;
+      width: 450px;
+      text-align: center;
+      align-items: center;
+      align-content: center;
+      
+  }
+
+  .Actions{    
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+    text-align: center;
+    float:left; width: 50%
+  }
+
+  .card-ac {
+    margin-right: 10px;
+    padding: 10px
+  }
+
+  .Assets{    
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+    text-align: center;
+    float:right; 
+    padding: 20px
   }
