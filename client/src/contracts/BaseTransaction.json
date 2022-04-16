@@ -173,7 +173,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 376,
+                        "referencedDeclaration": 214,
                         "src": "263:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
@@ -260,7 +260,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 376,
+                            "referencedDeclaration": 214,
                             "src": "315:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -336,10 +336,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        379,
-                        380
+                        217,
+                        218
                       ],
-                      "referencedDeclaration": 380,
+                      "referencedDeclaration": 218,
                       "src": "307:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -499,7 +499,7 @@
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 384,
+                      "referencedDeclaration": 222,
                       "src": "562:12:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_payable_$returns$__$",
@@ -777,7 +777,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 376,
+                                  "referencedDeclaration": 214,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -860,10 +860,10 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                379,
-                                380
+                                217,
+                                218
                               ],
-                              "referencedDeclaration": 380,
+                              "referencedDeclaration": 218,
                               "type": "function (bool,string memory) pure",
                               "value": "require"
                             },
@@ -904,7 +904,7 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 376,
+                                      "referencedDeclaration": 214,
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1165,7 +1165,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 384,
+                              "referencedDeclaration": 222,
                               "type": "function (address payable)",
                               "value": "selfdestruct"
                             },
@@ -1223,7 +1223,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-04-11T23:16:38.644Z",
+  "updatedAt": "2022-04-10T03:33:39.686Z",
   "devdoc": {
     "methods": {}
   },
