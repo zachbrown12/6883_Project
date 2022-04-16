@@ -22,33 +22,35 @@ class Add_Beneficiary extends Component {
     render() {
 
     return (
-        <div className="beneficiary-list"> 
+        <div className="add-b"> 
          <h1>Smart Will</h1>
-            <br></br><br></br>
-        <Form onSubmit ={this.onAddBeneficiary}>
-            <Form.Group className="add-b">
-            <Form.Field>
-                <label>Name</label>
-                <Input
-                value={this.state.name}
-                onChange={(event) =>
-                    this.setState({ name: event.target.value })
-                }
-                />
-            </Form.Field>
-            <Form.Field>
-                <label>Wallet Address</label>
-                <Input
-                value={this.state.address}
-                onChange={(event) => this.setState({ address: event.target.value })}
-                />
-            </Form.Field>
-            <Message error header="Oops!" content={this.state.errorMessage} />
-            <Button primary loading={this.state.loading}>
-                Create!
-            </Button>
-            </Form.Group>
-        </Form>
+        <div className ="add-b-form">
+            <h3>Add Beneficiary</h3>
+            <Form onSubmit ={this.onAddBeneficiary}>
+                <Form.Group >
+                <Form.Field>
+                    <label>Name</label>
+                    <Input
+                    value={this.state.name}
+                    onChange={(event) =>
+                        this.setState({ name: event.target.value })
+                    }
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Wallet Address</label>
+                    <Input
+                    value={this.state.address}
+                    onChange={(event) => this.setState({ address: event.target.value })}
+                    />
+                </Form.Field>
+                <Message error header="Oops!" content={this.state.errorMessage} />
+                <Button primary loading={this.state.loading}>
+                    Create!
+                </Button>
+                </Form.Group>
+            </Form>
+        </div>
             <br></br>
         </div>
         );
@@ -58,13 +60,13 @@ class Add_Beneficiary extends Component {
         event.preventDefault()
 
         const { name, address } = this.state
-
         this.setState({ loading: true, errorMessage: "" });
 
         await this.props.contract.methods.addBeneficiary(name, address).send({
             from: this.props.owner
         })
 
+        this.props.createNewBen(address);
         this.setState({ loading: false });
 
         //this.props.contract.methods.BeneficiaryList

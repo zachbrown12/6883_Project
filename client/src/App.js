@@ -13,6 +13,7 @@ class App extends Component {
     owner: "",
     address_array: [],
     beneficiaries: [],
+    balance: "",
     web3: null, 
     accounts: null, 
     contract: null };
@@ -31,16 +32,16 @@ class App extends Component {
       const contract = new web3.eth.Contract(
         WillContract.abi,
         deployedNetwork && deployedNetwork.address,
-        //deployedNetwork.address,
       );
       contract.options.address = deployedNetwork.address
       const owner = await contract.methods.owner().call();
-      //const address_array = await WillContract.abi.address_array;
-      //const beneficiaries = await WillContract.abi.beneficiaries;
+      const address_array = await contract.methods.getAddresses().call();
+      const balance = await web3.eth.getBalance(owner);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({owner: owner, web3: web3, accounts: accounts, contract: contract }, this.runExample);
+      this.setState({owner: owner, address_array: address_array, balance: balance, web3: web3, accounts: accounts, contract: contract }, console.log(this.state));
+      await this.getBeneficiaries();
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -51,11 +52,29 @@ class App extends Component {
 
   };
 
-  runExample = async () => {
-    //const { accounts, contract } = this.state;
+  getBeneficiaries = async () => {
 
+    for (let i = 0; i < this.state.address_array.length; i++) {
+      const beneficiary = await this.state.contract.methods.beneficiaries(this.state.address_array[i]).call();
+
+      this.setState(previousState => ({
+        beneficiaries: [...previousState.beneficiaries, beneficiary],
+      }));
+    }
     console.log(this.state)
   };
+
+
+  createNewBen = async (address) => {
+    const beneficiary = await this.state.contract.methods.beneficiaries(address).call();
+    
+    this.setState(previousState => ({
+      address_array: [...previousState.address_array, address],
+      beneficiaries: [...previousState.beneficiaries, beneficiary],
+    }));
+
+    console.log(this.state)
+  }
 
 
   render() {
@@ -67,19 +86,24 @@ class App extends Component {
         <Add_Beneficiary
           owner = {this.state.owner}
           contract = {this.state.contract}
+          addresses = {this.state.address_array}
+          beneficiaries = {this.state.beneficiaries}
+          createNewBen = {this.createNewBen}
         />
-        <div>
+        <div className="Actions">
         <Actions 
           owner = {this.state.owner}
           contract = {this.state.contract}
           beneficiaries = {this.state.beneficiaries}
         />
         </div>
-        <div>
+        <div classname ="Assets">
         <Assets 
           owner = {this.state.owner}
           contract = {this.state.contract}
           beneficiaries = {this.state.beneficiaries}
+          balance = {this.state.balance}
+          web3 = {this.state.web3}
         />
         </div>
 

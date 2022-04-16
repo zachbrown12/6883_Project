@@ -1,3 +1,4 @@
+var HDWalletProvider = require("truffle-hdwallet-provider")
 const path = require("path");
 
 module.exports = {
@@ -7,6 +8,16 @@ module.exports = {
   networks: {
     develop: {
       port: 8545
+    },
+    rinkeby: {
+      provider: function() { 
+       return new HDWalletProvider(
+        "churn liquid utility repeat advance rabbit cup width dress faith fatal retreat" 
+        ,"https://rinkeby.infura.io/v3/7bc36352f62642aaa6e0d6bbf3d99eef");
+      },
+      network_id: 4,
+      gas: 4500000,
+      gasPrice: 10000000000,
     }
   }
 };
