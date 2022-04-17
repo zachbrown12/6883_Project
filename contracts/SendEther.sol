@@ -5,29 +5,29 @@ import "./BaseTransaction.sol";
 contract SendEther is BaseTransaction {
   address payable private recipient;
   address private executor;
+  Conditions condition;
+  uint value;
   uint16  private delayedDays; // unit: days since 2020, max = 65535 days
   bool private isExercised; // set to true when the will is exercised
 
   constructor (Conditions _cond,
               address payable _recip,
               address  _executor,
-              uint16 _delayLength) public {
+              uint16 _delayLength) payable public {
     isExercised = false;
+    condition = _cond;
     recipient = _recip;
     executor = _executor;
     delayedDays = _delayLength;
+    value = msg.value;
 
-    if (_cond == Conditions.IMMEDIATE){
-      sendPayment(recipient);
-      isExercised = true;
-    } else if (_cond == Conditions.DELAYED_TRANSFER){
-      // todo send a message to the recipient to notify this 
-      // delayed contract has been put in place
-    } else if (_cond == Conditions.COSIGNER_INITIATED){
-      // todo send a message to the executor to notify
-      // this contract is in place
+    emit AnnounceAddress("A will was created for ", recipient);
+    if (condition == Conditions.DELAYED_TRANSFER){
+      emit AnnounceNumber("Days the will is delayed by ", delayedDays);
+    } else if (condition == Conditions.COSIGNER_INITIATED){
+      emit AnnounceAddress("Assigned executor for the will is ", executor);
     } else {
-      // not supported for now
+      // currently not supported
     }
   }
 
@@ -41,27 +41,27 @@ contract SendEther is BaseTransaction {
     _;
   }
 
-  function sendPayment(address payable _to) public payable byOwner {
-    // todo implement this
-    // (bool sent, bytes memory data) = _to.call{value: msg.value}("");
-    // require(sent, "Failed to send Ether");
+  function sendPayment() internal {
+    recipient.transfer(value);
   }
 
-  function inherit() public byRecipient {
-    if (!isExercised) {
+  function inherit() public payable byRecipient {
+    require(isExercised == false, 'Will has been executed');
+    if (condition == Conditions.DELAYED_TRANSFER) {
       // find the differences in days, make sure the latest block's 
       // time stamp is greater than the delayed days
       uint256 remainingDays = block.timestamp / 86400 - 18980;
       if (remainingDays > delayedDays){
-        sendPayment(recipient);
+        sendPayment();
         isExercised = true;
       }
     }
   }
 
-  function execute() public byExecutor {
-    if (!isExercised) {
-      sendPayment(recipient);
+  function execute() public payable byExecutor {
+    require(isExercised == false, 'Will has been executed');
+    if (condition == Conditions.COSIGNER_INITIATED) {
+      sendPayment();
       isExercised = true;
     }
   }
