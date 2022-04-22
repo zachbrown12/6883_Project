@@ -10,14 +10,21 @@ contract Will {
     address public owner;
     address[] public address_array;
     mapping(address => Beneficiary) public beneficiaries;
+    bool isExercised;
 
     constructor() public {
         owner = msg.sender;
+        isExercised = false;
         //msg.data, msg.sender, msg.value. msg.gas are options
     }
 
     modifier restricted() {
         require(msg.sender == owner);
+        _;
+    }
+
+    modifier restrictedWill() {
+        require(msg.sender == owner && isExercised == false);
         _;
     }
     
@@ -38,12 +45,14 @@ contract Will {
         ben_update.payout = payout;
     }
 
-    
-    /*
-    function getBeneficiary(address ben_address) public view returns (Beneficiary memory) {
-        return beneficiaries[ben_address];
+    function executeWill(address ben_address) public payable restrictedWill {
+        //isExercised = true;
+
+        address payable ben_address_pay = address(uint160(ben_address));
+        Beneficiary storage cur_ben = beneficiaries[ben_address];
+        ben_address_pay.transfer(address(this).balance);
     }
-    */
+
 
     function getAddresses() public view returns (address[] memory) {
         return address_array;

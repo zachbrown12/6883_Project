@@ -55,14 +55,18 @@ class App extends Component {
 
   getBeneficiaries = async () => {
 
-    this.setState({ beneficiaries: []})
+    this.setState({ beneficiaries: [],
+                    total_payout: 0,
+    })
+
 
     for (let i = 0; i < this.state.address_array.length; i++) {
       const beneficiary = await this.state.contract.methods.beneficiaries(this.state.address_array[i]).call();
 
+
       this.setState(previousState => ({
         beneficiaries: [...previousState.beneficiaries, beneficiary],
-        total_payout: this.state.total_payout + beneficiary.payout 
+        total_payout: parseInt(this.state.total_payout) + parseInt(beneficiary.payout) 
       }));
     }
     console.log(this.state)
@@ -80,6 +84,20 @@ class App extends Component {
     console.log(this.state)
   }
 
+  executeWill = async () => {
+
+    for (var i = 0; i < this.state.address_array.length; i++) {
+      const ben_address = this.state.address_array[i];
+
+        console.log(ben_address)
+      await this.state.contract.methods.executeWill(ben_address).send({
+        from: this.state.owner,
+        value: this.state.beneficiaries[i].payout
+      });
+    }
+    window.location.reload(false);
+  }
+
 
   render() {
     if (!this.state.web3) {
@@ -93,6 +111,7 @@ class App extends Component {
           addresses = {this.state.address_array}
           beneficiaries = {this.state.beneficiaries}
           createNewBen = {this.createNewBen}
+          execWill = {this.executeWill}
         />
         <div className="Actions">
         <Actions 
