@@ -53,7 +53,7 @@ class ActionCard extends Component {
             from: this.props.owner
         })
 
-        this.props.updatePayout();
+        this.props.updatePayout(payout);
     }
 
 }

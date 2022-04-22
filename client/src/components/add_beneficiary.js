@@ -50,6 +50,17 @@ class Add_Beneficiary extends Component {
                 </Button>
                 </Form.Group>
             </Form>
+            <Form className = "execButton1" onSubmit ={() => this.props.execWill()}>
+                    <Button variant="outline-secondary" id="button-addon1" type="submit">
+                        Execute Will Now
+                    </Button>
+            </Form>
+            <br></br>
+            <Form className = "execButton2" onSubmit ={() => this.props.execWill()}>
+                    <Button variant="outline-secondary" id="button-addon2" type="submit">
+                        Execute Will Later
+                    </Button>
+            </Form>
         </div>
             <br></br>
         </div>
