@@ -190,6 +190,7 @@
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
+
                         "referencedDeclaration": 411,
                         "src": "248:3:0",
                         "typeDescriptions": {
@@ -416,8 +417,10 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
+
                             "referencedDeclaration": 411,
                             "src": "393:3:0",
+
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
                               "typeString": "msg"
@@ -575,8 +578,10 @@
                       "name": "selfdestruct",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
+
                       "referencedDeclaration": 419,
                       "src": "555:12:0",
+
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_selfdestruct_nonpayable$_t_address_payable_$returns$__$",
                         "typeString": "function (address payable)"
@@ -846,6 +851,7 @@
                                     null
                                   ],
                                   "referencedDeclaration": 411,
+
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -1119,7 +1125,9 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
+
                                       "referencedDeclaration": 411,
+
                                       "type": "msg",
                                       "value": "msg"
                                     },
@@ -1282,7 +1290,9 @@
                               "overloadedDeclarations": [
                                 null
                               ],
+
                               "referencedDeclaration": 419,
+
                               "type": "function (address payable)",
                               "value": "selfdestruct"
                             },
@@ -1340,6 +1350,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.6",
+
   "updatedAt": "2022-04-17T04:56:36.911Z",
   "devdoc": {
     "methods": {}

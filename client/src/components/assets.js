@@ -11,7 +11,7 @@ const Assets = (props) => {
                 <ListGroup>
                     <ListGroup.Item>Balance: {props.balance} wei</ListGroup.Item>
                     <ListGroup.Item>Balance: {props.web3.utils.fromWei(props.balance, "ether")} ether!</ListGroup.Item>
-                    <ListGroup.Item>NFT 3</ListGroup.Item>
+                    <ListGroup.Item>Total Payou: {props.total_payout}</ListGroup.Item>
                 </ ListGroup>
             </div>
         </div>

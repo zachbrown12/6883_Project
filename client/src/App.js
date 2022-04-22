@@ -13,7 +13,8 @@ class App extends Component {
     owner: "",
     address_array: [],
     beneficiaries: [],
-    balance: "",
+    balance: 0,
+    total_payout: 0,
     web3: null, 
     accounts: null, 
     contract: null };
@@ -54,11 +55,14 @@ class App extends Component {
 
   getBeneficiaries = async () => {
 
+    this.setState({ beneficiaries: []})
+
     for (let i = 0; i < this.state.address_array.length; i++) {
       const beneficiary = await this.state.contract.methods.beneficiaries(this.state.address_array[i]).call();
 
       this.setState(previousState => ({
         beneficiaries: [...previousState.beneficiaries, beneficiary],
+        total_payout: this.state.total_payout + beneficiary.payout 
       }));
     }
     console.log(this.state)
@@ -95,6 +99,7 @@ class App extends Component {
           owner = {this.state.owner}
           contract = {this.state.contract}
           beneficiaries = {this.state.beneficiaries}
+          updatePayout = {this.getBeneficiaries}
         />
         </div>
         <div classname ="Assets">
@@ -104,6 +109,7 @@ class App extends Component {
           beneficiaries = {this.state.beneficiaries}
           balance = {this.state.balance}
           web3 = {this.state.web3}
+          total_payout = {this.state.total_payout}
         />
         </div>
 
