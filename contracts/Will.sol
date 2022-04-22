@@ -31,6 +31,13 @@ contract Will {
         beneficiaries[ben_address] = newBeneficiary;
         address_array.push(ben_address);
     }
+
+    function updatePayout(address ben_address, uint payout) public restricted {
+
+        Beneficiary storage ben_update = beneficiaries[ben_address];
+        ben_update.payout = payout;
+    }
+
     
     /*
     function getBeneficiary(address ben_address) public view returns (Beneficiary memory) {

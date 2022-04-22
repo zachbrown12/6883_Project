@@ -18,6 +18,11 @@ module.exports = {
       network_id: 4,
       gas: 4500000,
       gasPrice: 10000000000,
+    },
+  },
+    compilers: {
+      solc: {
+        version: "0.5.16"  // ex:  "0.4.20". (Default: Truffle's installed solc)
+      }
     }
-  }
 };
