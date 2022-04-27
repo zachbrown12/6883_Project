@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //import Form from 'react-bootstrap/Form';
 //import Input from 'react-bootstrap/Input';
 //import Message from 'react-bootstrap/Message';
-import ListGroup from 'react-bootstrap/ListGroup';
+// import ListGroup from 'react-bootstrap/ListGroup';
 import { Form, Button, Message, Input } from "semantic-ui-react";
 
 
@@ -25,7 +25,7 @@ class Add_Beneficiary extends Component {
         <div className="add-b"> 
          <h1>Smart Will</h1>
         <div className ="add-b-form">
-            <h3>Add Beneficiary</h3>
+            <h3>Add A Beneficiary</h3>
             <Form onSubmit ={this.onAddBeneficiary}>
                 <Form.Group >
                 <Form.Field>
@@ -49,17 +49,6 @@ class Add_Beneficiary extends Component {
                     Create!
                 </Button>
                 </Form.Group>
-            </Form>
-            <Form className = "execButton1" onSubmit ={() => this.props.execWill()}>
-                    <Button variant="outline-secondary" id="button-addon1" type="submit">
-                        Execute Will Now
-                    </Button>
-            </Form>
-            <br></br>
-            <Form className = "execButton2" onSubmit ={() => this.props.execWill()}>
-                    <Button variant="outline-secondary" id="button-addon2" type="submit">
-                        Execute Will Later
-                    </Button>
             </Form>
         </div>
             <br></br>

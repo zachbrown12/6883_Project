@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-import { Input } from "semantic-ui-react";
+// import { Input } from "semantic-ui-react";
+
+const options = [
+    { value: 0, label: 'Set an execution date' },
+    { value: 1, label: 'Assign an executor' },
+];
 
 class ActionCard extends Component {
     constructor(props) {
@@ -10,36 +16,73 @@ class ActionCard extends Component {
 
         this.state = {
             name: "",
-            payout: 0
+            payout: 0,
+            selectedOption: null,
+            optionValue: ""
         }
     }
 
+    handleChange = (selectedOption) => {
+        this.setState({ selectedOption }, () =>
+          console.log('Option selected:', this.state.selectedOption)
+        );
+    };
+
     render() {
-  
-        return (
-            <div className="card-ac">
-                <div key={this.props.index} class="card text-dark bg-light mb-3">
-                    Name: {this.props.beneficiary.name}<br></br>
-                    Address: {this.props.beneficiary.ben_address}<br></br>
-                    Payout: {this.props.beneficiary.payout}<br></br><br></br>
-                    <b>Choose to Give Assets</b>
-                    <div className = "bullets">
-                        <Form onSubmit ={(event) => this.updatePayout(event)}>
-                            <InputGroup className="mb-3">
-                                <Button variant="outline-secondary" id="button-addon1" type="submit">
-                                    Submit
-                                </Button>
-                                <Form.Control 
-                                    aria-label="Amount (to the nearest dollar)" />
-                                <InputGroup.Text>
-                                    Wei
-                                </InputGroup.Text>
-                            </InputGroup>
-                        </Form>
+        // todo: should be > 0. set to = 0 for testing purpose
+        if (this.props.beneficiary.payout = 0) {
+            return (
+                <div className="card-ac">
+                    <div key={this.props.index} class="card text-dark bg-light mb-3">
+                        <h4>Deployed Will</h4>
+                        Name: {this.props.beneficiary.name}<br></br>
+                        Address: {this.props.beneficiary.ben_address}<br></br>
+                        Payout: {this.props.beneficiary.payout} Wei<br></br>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            const { selectedOption } = this.state;
+            return (
+                <div className="card-ac">
+                    <div key={this.props.index} class="card text-dark bg-light mb-3">
+                        Name: {this.props.beneficiary.name}<br></br>
+                        Address: {this.props.beneficiary.ben_address}<br></br>
+                        <div className = "bullets">
+                        <b>Compose A Will</b>
+                        <Form onSubmit ={(event) => this.updatePayout(event)}>
+                            <InputGroup className="mb-3">
+                                <Select 
+                                    options={options} 
+                                    value={selectedOption}
+                                    onChange={this.handleChange} 
+                                    placeholder="Select an option" 
+                                />
+                                <Form.Control 
+                                    placeholder={(this.state.selectedOption == null) ? "" : 
+                                        (this.state.selectedOption.value == 0) ? "Enter the desired days since Linux epoch" :
+                                        (this.state.selectedOption.value == 1) ? "Enter the executor's account address" : ""}
+                                    aria-label="Value with dropdown button" 
+                                />
+                            </InputGroup>
+
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text>Assign the Will's Value: </InputGroup.Text>
+                                <Form.Control 
+                                    placeholder="Integer amount in Wei (e.g. 50000)"
+                                    aria-label="Amount (in Wei)" 
+                                />
+                            </InputGroup>
+
+                            <Button variant="outline-secondary" id="button-addon1" type="submit">
+                                    Submit
+                            </Button>
+                        </Form>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     };
 
 
@@ -47,6 +90,7 @@ class ActionCard extends Component {
         event.preventDefault()
 
         const payout = event.target[1].value
+        console.log(payout);
         const address = this.props.beneficiary.ben_address
 
         await this.props.contract.methods.updatePayout(address, payout).send({
@@ -57,8 +101,5 @@ class ActionCard extends Component {
     }
 
 }
-
-
-
 
 export default ActionCard
