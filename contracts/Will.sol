@@ -48,7 +48,8 @@ contract Will {
     function executeWill(address ben_address) public payable restrictedWill {
         //isExercised = true;
 
-        address payable ben_address_pay = address(uint160(ben_address));
+        //address payable ben_address_pay = address(uint160(ben_address));
+        address payable ben_address_pay = payable(ben_address);
         Beneficiary storage cur_ben = beneficiaries[ben_address];
         ben_address_pay.transfer(address(this).balance);
     }
