@@ -6,13 +6,14 @@ const Assets = (props) => {
 
     return (
         <div className="assets">
-            <h2>Here are your Assets</h2>
-            <div className = "bullets">
+            <div class="card text-dark bg-light mb-2">
+                <h2>My Account Information</h2>
                 <ListGroup>
-                    <ListGroup.Item>Balance: {props.balance} wei</ListGroup.Item>
-                    <ListGroup.Item>Balance: {props.web3.utils.fromWei(props.balance, "ether")} ether!</ListGroup.Item>
-                    <ListGroup.Item>Total Payout: {props.total_payout}</ListGroup.Item>
-                    <ListGroup.Item>Remaining to Allocate: {props.balance - props.total_payout}</ListGroup.Item>
+                    <ListGroup.Item>Address: {props.owner} </ListGroup.Item>
+                    <ListGroup.Item>Current Balance: {props.balance} Wei </ListGroup.Item>
+                    {/* <ListGroup.Item>Balance: {props.web3.utils.fromWei(props.balance, "ether")} ether!</ListGroup.Item> */}
+                    <ListGroup.Item>Payout for wills: {props.total_payout} Wei </ListGroup.Item>
+                    <ListGroup.Item>Remaining to Allocate: {props.balance - props.total_payout} Wei </ListGroup.Item>
                 </ ListGroup>
             </div>
         </div>

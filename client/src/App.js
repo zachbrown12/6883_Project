@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import WillContract from "./contracts/Will.json";
 import getWeb3 from "./getWeb3";
 
-import add_beneficiary from "./components/add_beneficiary";
+// import add_beneficiary from "./components/add_beneficiary";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -131,7 +131,6 @@ class App extends Component {
           total_payout = {this.state.total_payout}
         />
         </div>
-
       </div>
     );
   }
