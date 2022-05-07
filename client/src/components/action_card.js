@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
+// import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
 // import { Input } from "semantic-ui-react";
 
-const options = [
-    { value: 0, label: 'Set an execution date' },
-    { value: 1, label: 'Assign an executor' },
-];
+// const options = [
+//     { value: 0, label: 'Set an execution date' },
+//     { value: 1, label: 'Assign an executor' },
+// ];
 
 class ActionCard extends Component {
     constructor(props) {
@@ -17,20 +17,20 @@ class ActionCard extends Component {
         this.state = {
             name: "",
             payout: 0,
-            selectedOption: null,
-            optionValue: ""
+            // selectedOption: null,
+            // optionValue: ""
         }
     }
 
-    handleChange = (selectedOption) => {
-        this.setState({ selectedOption }, () =>
-          console.log('Option selected:', this.state.selectedOption)
-        );
-    };
+    // handleChange = (selectedOption) => {
+    //     this.setState({ selectedOption }, () =>
+    //       console.log('Option selected:', this.state.selectedOption)
+    //     );
+    // };
 
     render() {
         // todo: should be > 0. set to = 0 for testing purpose
-        if (this.props.beneficiary.payout = 0) {
+        if (this.props.beneficiary.payout > 0) {
             return (
                 <div className="card-ac">
                     <div key={this.props.index} class="card text-dark bg-light mb-3">
@@ -42,16 +42,16 @@ class ActionCard extends Component {
                 </div>
             );
         } else {
-            const { selectedOption } = this.state;
+            // const { selectedOption } = this.state;
             return (
                 <div className="card-ac">
                     <div key={this.props.index} class="card text-dark bg-light mb-3">
+                        <b>Compose A Will</b>
                         Name: {this.props.beneficiary.name}<br></br>
                         Address: {this.props.beneficiary.ben_address}<br></br>
                         <div className = "bullets">
-                        <b>Compose A Will</b>
                         <Form onSubmit ={(event) => this.updatePayout(event)}>
-                            <InputGroup className="mb-3">
+                            {/* <InputGroup className="mb-3">
                                 <Select 
                                     options={options} 
                                     value={selectedOption}
@@ -64,7 +64,7 @@ class ActionCard extends Component {
                                         (this.state.selectedOption.value == 1) ? "Enter the executor's account address" : ""}
                                     aria-label="Value with dropdown button" 
                                 />
-                            </InputGroup>
+                            </InputGroup> */}
 
                             <InputGroup className="mb-3">
                                 <InputGroup.Text>Assign the Will's Value: </InputGroup.Text>
@@ -72,11 +72,11 @@ class ActionCard extends Component {
                                     placeholder="Integer amount in Wei (e.g. 50000)"
                                     aria-label="Amount (in Wei)" 
                                 />
-                            </InputGroup>
 
-                            <Button variant="outline-secondary" id="button-addon1" type="submit">
+                                <Button variant="success" id="button-addon1" type="submit">
                                     Submit
-                            </Button>
+                                </Button>
+                            </InputGroup>
                         </Form>
                         </div>
                     </div>
@@ -84,7 +84,6 @@ class ActionCard extends Component {
             );
         }
     };
-
 
     updatePayout = async (event) => {
         event.preventDefault()
@@ -99,7 +98,6 @@ class ActionCard extends Component {
 
         this.props.updatePayout(payout);
     }
-
 }
 
 export default ActionCard
