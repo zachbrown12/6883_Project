@@ -29,7 +29,6 @@ class ActionCard extends Component {
     // };
 
     render() {
-        // todo: should be > 0. set to = 0 for testing purpose
         if (this.props.beneficiary.payout > 0) {
             return (
                 <div className="card-ac">

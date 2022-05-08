@@ -48,27 +48,23 @@ class Add_Beneficiary extends Component {
             <h1>Smart Will</h1>
             <h3>Add A Beneficiary</h3>
             <Form onSubmit ={this.onAddBeneficiary}>
-                {/* <Form.Group > */}
-                    <Form.Field>
-                        {/* <label>Name</label> */}
-                        <Input
-                            value={this.state.name}
-                            placeholder="Enter Beneficiary Name Here"
-                            onChange={(event) =>
-                                this.setState({ name: event.target.value })}
-                        />
-                    </Form.Field>
+                <Form.Field>
+                    <Input
+                        value={this.state.name}
+                        placeholder="Enter Beneficiary Name Here"
+                        onChange={(event) =>
+                            this.setState({ name: event.target.value })}
+                    />
+                </Form.Field>
 
-                    <Form.Field>
-                        {/* <label>Wallet Address</label> */}
-                        <Input
-                        placeholder="Enter Beneficiary Wallet Address Here"
-                        value={this.state.address}
-                        onChange={(event) => this.setState({ address: event.target.value })}
-                        />
-                    </Form.Field>
-                    <Message error header="Oops!" content={this.state.errorMessage} />
-                {/* </Form.Group> */}
+                <Form.Field>
+                    <Input
+                    placeholder="Enter Beneficiary Wallet Address Here"
+                    value={this.state.address}
+                    onChange={(event) => this.setState({ address: event.target.value })}
+                    />
+                </Form.Field>
+                <Message error header="Oops!" content={this.state.errorMessage} />
 
                 <InputGroup className="mb-3">
                     <Select 
@@ -87,17 +83,17 @@ class Add_Beneficiary extends Component {
                     </Button>
                 </InputGroup>
             </Form>
-            
-            <Form onSubmit ={this.voidContract}>
-                {this.props.web3.currentProvider.selectedAddress == this.props.owner ? 
-                <Button primary loading={this.state.loading}>
-                    Void the Will
-                </Button> : 
-                ""}
-            </Form>
+
+            <div className="card-ac">
+                <Form onSubmit ={this.resetContract}>
+                    {this.props.web3.currentProvider.selectedAddress == this.props.owner ? 
+                    <Button variant="danger" loading={this.state.loading}>
+                        Reset the Will
+                    </Button> : 
+                    ""}
+                </Form>
+            </div>
         </div>
-            // <br></br>
-        // </div>
         );
     }
 
@@ -131,11 +127,12 @@ class Add_Beneficiary extends Component {
         //this.props.contract.methods.BeneficiaryList
     }
 
-    voidContract = async (event) => {
+    resetContract = async (event) => {
         event.preventDefault()
+
         this.setState({ loading: true, errorMessage: "" });
 
-        await this.props.contract.methods.voidContract().send({
+        await this.props.contract.methods.resetContract().send({
             from: this.props.owner
         })
 

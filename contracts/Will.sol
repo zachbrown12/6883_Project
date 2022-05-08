@@ -95,6 +95,10 @@ contract Will {
         return address_array;
     }
 
+    function resetContract() public restricted {
+        delete address_array;
+    }
+
     function voidContract() public restricted {
         // delete the contract and send remaining balance back to owner
         selfdestruct(owner);
