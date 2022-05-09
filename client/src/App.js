@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import WillContract from "./contracts/Will.json";
 import getWeb3 from "./getWeb3";
 
-import add_beneficiary from "./components/add_beneficiary";
+// import add_beneficiary from "./components/add_beneficiary";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -86,6 +86,7 @@ class App extends Component {
 
   executeWill = async () => {
 
+    // execute the will if it hasn't been executed yet
     for (var i = 0; i < this.state.address_array.length; i++) {
       const ben_address = this.state.address_array[i];
 
@@ -110,6 +111,7 @@ class App extends Component {
           contract = {this.state.contract}
           addresses = {this.state.address_array}
           beneficiaries = {this.state.beneficiaries}
+          web3 = {this.state.web3}
           createNewBen = {this.createNewBen}
           execWill = {this.executeWill}
         />
@@ -131,7 +133,6 @@ class App extends Component {
           total_payout = {this.state.total_payout}
         />
         </div>
-
       </div>
     );
   }
