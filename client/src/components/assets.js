@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const Assets = (props) => {
-    var myAddress = props.web3.currentProvider.selectedAddress;
+    var myAddress = props.cur_address
     var isBeneficiary = false;
-    var isExecutor = props.contract.methods.executor == myAddress;
+    var isExecutor = props.owner == myAddress;
     // console.log(props.beneficiaries)
 
     props.beneficiaries.map((beneficiaries) => {
@@ -20,7 +20,7 @@ const Assets = (props) => {
             <div class="card text-dark bg-light mb-2">
                 <h2>Current Will's Information</h2>
                 <ListGroup>
-                    <ListGroup.Item>Contract Address: {props.contract.options.address} </ListGroup.Item>
+                    <ListGroup.Item>Contract Address: {"0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"} </ListGroup.Item>
                     <ListGroup.Item>Testator Address: {props.owner} </ListGroup.Item>
                     {/* <ListGroup.Item>Current Balance: {props.balance} Wei </ListGroup.Item> */}
                     {/* <ListGroup.Item>Balance: {props.web3.utils.fromWei(props.balance, "ether")} ether!</ListGroup.Item> */}
@@ -34,7 +34,7 @@ const Assets = (props) => {
                 <ListGroup>
                     <ListGroup.Item>My Account Address: {myAddress}</ListGroup.Item>
                     <ListGroup.Item>
-                        My Role: {(props.contract.options.from == myAddress) ? "Owner" : 
+                        My Role: {(props.owner == myAddress) ? "Owner" : 
                             (isBeneficiary == true) ? "Beneficiary" :
                             (isExecutor == true) ? "Executor" : "None"} 
                     </ListGroup.Item>

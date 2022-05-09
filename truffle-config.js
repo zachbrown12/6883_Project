@@ -6,7 +6,7 @@ const privateKey= require('./secrets.json').privateKey;
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
   // to customize your Truffle configuration!
-  //contracts_build_directory: path.join(__dirname, "client/src/contracts"),
+  contracts_build_directory: path.join(__dirname, "client/src/contracts"),
   networks: {
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
@@ -36,10 +36,10 @@ module.exports = {
       provider: () => new HDWalletProvider(
         {
           privateKeys: [privateKey], 
-          providerOrUrl: `https://test-huygens.computecoin.info`,
-          chainID: 3, 
+          providerOrUrl: `https://test-huygens.computecoin.info`
         }
           ),
+      networkCheckTimeout: 100000,
       network_id: 828,
       confirmations: 10,
       timeoutBlocks: 20,
