@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import WillContract from "./contracts/Will.json";
-import getWeb3 from "./getWeb3";
+// import getWeb3 from "./getWeb3";
 
 // import add_beneficiary from "./components/add_beneficiary";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Add_Beneficiary from "./components/add_beneficiary";
+
+const huygenTest="http://18.182.45.18";
 
 class App extends Component {
   state = { 
@@ -24,38 +26,41 @@ class App extends Component {
   componentDidMount = async () => {
     try {
       // Get network provider and aleerium instance.
-      if (typeof window["aleereum"] !== "undefined"){
-        const provider = window["aleereum"];
-        console.log(provider)
+      if (typeof window["aleereum"] == "undefined"){
+        console.log("Ale wallet not found");
       }
       const provider = window["aleereum"];
-      console.log(provider)
+      console.log(provider);
+      const connectStatus = await provider.connect() 
+      console.log(connectStatus);
 
       //Connect to mcp
       const options = {
-        host: "http://test-huygens.computecoin.info",
-        port: 8765
-    }
+        host: huygenTest,
+        dev: true,
+      }
 
       let Mcp = require("mcp.js");
       let mcp = new Mcp(options); 
 
       mcp.request.status().then(function (res) {
         console.log(`status`,res);
-    }).catch(function(error){
-        console.log("accountList catch",error)
-    })
+      }).catch(function(error){
+          console.log("accountList catch",error);
+      })
 
-      console.log(mcp)
+      console.log(mcp);
 
-      mcp.Contract.setProvider("https://test-huygens.computecoin.info")
-      const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
+      mcp.Contract.setProvider(huygenTest);
+      const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6";
 
-      const contract = new mcp.Contract(WillContract.abi, core)
-      console.log(contract)
+      const contract = new mcp.Contract(WillContract.abi, core);
 
-      const connectStatus = await provider.connect()
-      console.log(connectStatus)
+      console.log(contract);
+
+
+      // const connectStatus = await provider.connect() 
+      // console.log(connectStatus)
 
       //const web3 = await getWeb3();
       // Use web3 to get the user's accounts.
@@ -71,6 +76,7 @@ class App extends Component {
       //  deployedNetwork && deployedNetwork.address,
       //);
       //contract.options.address = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
+      
       contract.methods.owner().call()
       .then(res => {
         console.log(res.toString());
@@ -78,7 +84,6 @@ class App extends Component {
       
       
       const owner = await contract.methods.owner().call();
-      console.log(owner)
       const address_array = await contract.methods.getAddresses().call();
       const account = await provider.account
       const balance = await provider.getBalance(account)
