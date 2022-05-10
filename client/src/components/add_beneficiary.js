@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Form, Button, Message, Input } from "semantic-ui-react";
+import userData from './storage.json'
 
 const options = [
     { value: 0, label: 'Set an execution date' },
@@ -99,7 +100,7 @@ class Add_Beneficiary extends Component {
         console.log(this.state)
         await this.props.contract.methods.addBeneficiary(name, address).sendBlock({
             from: this.props.owner,
-            password: 'mypassword',
+            password: userData["password"],
             amount: '0',
             gas_price: '20000000000',
             gas:'2000000',
@@ -108,7 +109,7 @@ class Add_Beneficiary extends Component {
 
         await this.props.contract.methods.updateExecutionType(this.state.selectedOption.value).sendBlock({
             from: this.props.owner,
-            password: 'mypassword',
+            password: userData["password"],
             amount: '0',
             gas_price: '20000000000',
             gas:'2000000',
@@ -118,7 +119,7 @@ class Add_Beneficiary extends Component {
         if (this.state.selectedOption.value === 0){
             await this.props.contract.methods.setDate(Number(this.state.selectionValue)).sendBlock({
                 from: this.props.owner,
-                password: 'mypassword',
+                password: userData["password"],
                 amount: '10',
                 gas_price: '20000000000',
                 gas:'2000000',
@@ -126,7 +127,7 @@ class Add_Beneficiary extends Component {
         } else {
             await this.props.contract.methods.setExecutor(this.state.selectionValue).sendBlock({
                 from: this.props.owner,
-                password: 'mypassword',
+                password: userData["password"],
                 amount: '10',
                 gas_price: '20000000000',
                 gas:'2000000',
@@ -146,7 +147,7 @@ class Add_Beneficiary extends Component {
 
         await this.props.contract.methods.resetContract().sendBlock({
             from: this.props.owner,
-            password: 'mypassword',
+            password: userData["password"],
             amount: '0',
             gas_price: '20000000000',
             gas:'2000000',

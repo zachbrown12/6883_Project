@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
+import userData from './storage.json'
 
 class ActionCard extends Component {
     constructor(props) {
@@ -59,9 +60,10 @@ class ActionCard extends Component {
         console.log(payout);
         const address = this.props.beneficiary.ben_address
 
+        console.log(userData["password"]);
         await this.props.contract.methods.updatePayout(address, payout).sendBlock({
             from: this.props.owner,
-            password: 'mypassword',
+            password: userData["password"],
             amount: '0',
             gas_price: '20000000000',
             gas:'2000000',
