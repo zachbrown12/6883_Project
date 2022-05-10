@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-// import Select from 'react-select';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
-// import { Input } from "semantic-ui-react";
-
-// const options = [
-//     { value: 0, label: 'Set an execution date' },
-//     { value: 1, label: 'Assign an executor' },
-// ];
 
 class ActionCard extends Component {
     constructor(props) {
@@ -16,17 +9,9 @@ class ActionCard extends Component {
 
         this.state = {
             name: "",
-            payout: 0,
-            // selectedOption: null,
-            // optionValue: ""
+            payout: 0
         }
     }
-
-    // handleChange = (selectedOption) => {
-    //     this.setState({ selectedOption }, () =>
-    //       console.log('Option selected:', this.state.selectedOption)
-    //     );
-    // };
 
     render() {
         if (this.props.beneficiary.payout > 0) {
@@ -41,7 +26,6 @@ class ActionCard extends Component {
                 </div>
             );
         } else {
-            // const { selectedOption } = this.state;
             return (
                 <div className="card-ac">
                     <div key={this.props.index} class="card text-dark bg-light mb-3">
@@ -49,34 +33,18 @@ class ActionCard extends Component {
                         Name: {this.props.beneficiary.name}<br></br>
                         Address: {this.props.beneficiary.ben_address}<br></br>
                         <div className = "bullets">
-                        <Form onSubmit ={(event) => this.updatePayout(event)}>
-                            {/* <InputGroup className="mb-3">
-                                <Select 
-                                    options={options} 
-                                    value={selectedOption}
-                                    onChange={this.handleChange} 
-                                    placeholder="Select an option" 
-                                />
-                                <Form.Control 
-                                    placeholder={(this.state.selectedOption == null) ? "" : 
-                                        (this.state.selectedOption.value == 0) ? "Enter the desired days since Linux epoch" :
-                                        (this.state.selectedOption.value == 1) ? "Enter the executor's account address" : ""}
-                                    aria-label="Value with dropdown button" 
-                                />
-                            </InputGroup> */}
-
+                            <Form onSubmit ={(event) => this.updatePayout(event)}>
                             <InputGroup className="mb-3">
                                 <InputGroup.Text>Assign the Will's Value: </InputGroup.Text>
-                                <Form.Control 
-                                    placeholder="Integer amount in Wei (e.g. 50000)"
-                                    aria-label="Amount (in Wei)" 
-                                />
-
-                                <Button variant="success" id="button-addon1" type="submit">
-                                    Submit
-                                </Button>
-                            </InputGroup>
-                        </Form>
+                                    <Form.Control 
+                                        placeholder="Integer amount in Wei (e.g. 50000)"
+                                        aria-label="Amount (in Wei)" 
+                                    />
+                                    <Button variant="success" id="button-addon1" type="submit">
+                                        Submit
+                                    </Button>
+                                </InputGroup>
+                            </Form>
                         </div>
                     </div>
                 </div>

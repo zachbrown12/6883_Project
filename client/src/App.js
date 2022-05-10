@@ -14,8 +14,6 @@ const networkOptions = {
   dev: true,
 }
 
-const huygenTest="http://18.182.45.18";
-
 class App extends Component {
   state = {
     owner: "",
@@ -41,8 +39,6 @@ class App extends Component {
       console.log("provider details ", provider);
       const connectStatus = await provider.connect();
       console.log("connection status ", connectStatus);
-
-      const providerAddress = "18.182.45.18"
 
       //Connect to mcp
       let Mcp = require("mcp.js");

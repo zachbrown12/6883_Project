@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import InputGroup from 'react-bootstrap/InputGroup';
-//import Button from 'react-bootstrap/Button';
-//import Form from 'react-bootstrap/Form';
-//import Input from 'react-bootstrap/Input';
-//import Message from 'react-bootstrap/Message';
-// import ListGroup from 'react-bootstrap/ListGroup';
 import { Form, Button, Message, Input } from "semantic-ui-react";
 
 const options = [
@@ -40,10 +35,7 @@ class Add_Beneficiary extends Component {
     };
 
     render() {
-
     return (
-        // <div className="add-b">
-            // <h1>Smart Will</h1>
         <div className ="add-b-form" style={headingStyle}>
             <h1>Smart Will</h1>
             <h3>Add A Beneficiary</h3>
