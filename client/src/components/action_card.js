@@ -55,12 +55,10 @@ class ActionCard extends Component {
 
     updatePayout = async (event) => {
         event.preventDefault()
-
-        const payout = event.target[1].value
+        const payout = event.target[0].value
         console.log(payout);
         const address = this.props.beneficiary.ben_address
 
-        console.log(userData["password"]);
         await this.props.contract.methods.updatePayout(address, payout).sendBlock({
             from: this.props.owner,
             password: userData["password"],
