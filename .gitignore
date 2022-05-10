@@ -1,2 +1,4 @@
 node_modules
 bin/
+client/src/contracts/Migrations.json
+client/src/contracts/Will.json

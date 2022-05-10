@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-// import Button from 'react-bootstrap/Button';
-// import InputGroup from 'react-bootstrap/InputGroup'
-// import Form from 'react-bootstrap/Form'
 import ActionCard from '../components/action_card';
 
 class Actions extends Component {
@@ -14,7 +11,6 @@ class Actions extends Component {
     }
 
     render() {
-
         return this.props.beneficiaries.map((beneficiaries, index) => {
             return (
                 <ActionCard
@@ -25,11 +21,8 @@ class Actions extends Component {
                     updatePayout = {this.props.updatePayout}
                 />
             );
-    });
-
+        });
     }
-
 }
-
 
 export default Actions
