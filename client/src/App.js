@@ -31,10 +31,13 @@ class App extends Component {
       const provider = window["aleereum"];
       console.log(provider)
 
+      const providerAddress = "18.182.45.18"
+
       //Connect to mcp
       const options = {
-        host: "http://test-huygens.computecoin.info",
-        port: 8765
+        host: providerAddress,
+        //port: 8765,
+        dev: true
     }
 
       let Mcp = require("mcp.js");
@@ -48,14 +51,14 @@ class App extends Component {
 
       console.log(mcp)
 
-      mcp.Contract.setProvider("https://test-huygens.computecoin.info")
+      mcp.Contract.setProvider(providerAddress)
+      //mcp.Contract.setProvider(providerAddress)
       const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
 
-      const contract = new mcp.Contract(WillContract.abi, core)
+      const contract = new mcp.Contract(WillContract.abi, providerAddress && core)
       console.log(contract)
 
       const connectStatus = await provider.connect()
-      console.log(connectStatus)
 
       //const web3 = await getWeb3();
       // Use web3 to get the user's accounts.
@@ -71,6 +74,7 @@ class App extends Component {
       //  deployedNetwork && deployedNetwork.address,
       //);
       //contract.options.address = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
+
       contract.methods.owner().call()
       .then(res => {
         console.log(res.toString());

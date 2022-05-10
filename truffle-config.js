@@ -36,7 +36,8 @@ module.exports = {
       provider: () => new HDWalletProvider(
         {
           privateKeys: [privateKey], 
-          providerOrUrl: `https://test-huygens.computecoin.info`
+          providerOrUrl: `18.182.45.18`
+          //providerOrUrl: `https://test-huygens.computecoin.info`
         }
           ),
       networkCheckTimeout: 100000,
