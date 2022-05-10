@@ -63,7 +63,8 @@ class App extends Component {
       const owner = await contract.methods.owner().call();
       const address_array = await contract.methods.getAddresses().call();
       const account = await provider.account
-      const balance = await provider.getBalance(account)
+      let balance = await provider.getBalance(account)
+      balance = balance.balance
 
       //const balance = await web3.eth.getBalance(owner);
 
@@ -75,9 +76,9 @@ class App extends Component {
       await this.getBeneficiaries();
     } catch (error) {
       // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load provider, accounts, or contract. Check console for details.`,
-      );
+      //alert(
+      //  `Failed to load provider, accounts, or contract. Check console for details.`,
+      //);
       console.error(error);
     }
     // end of try-catch
@@ -90,7 +91,10 @@ class App extends Component {
 
     for (let i = 0; i < this.state.address_array.length; i++) {
       const beneficiary = await this.state.contract.methods.beneficiaries(this.state.address_array[i]).call();
-
+      console.log(beneficiary)
+      const payout = beneficiary.payout._bn.words[0]
+      beneficiary["payout"] = payout
+      beneficiary[1] = payout
       this.setState(previousState => ({
         beneficiaries: [...previousState.beneficiaries, beneficiary],
         total_payout: parseInt(this.state.total_payout) + parseInt(beneficiary.payout)

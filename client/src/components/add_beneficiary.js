@@ -5,7 +5,7 @@ import { Form, Button, Message, Input } from "semantic-ui-react";
 import userData from './storage.json'
 
 const options = [
-    { value: 0, label: 'Set an execution date' },
+    { value: 0, label: 'Set days until execution' },
     { value: 1, label: 'Assign an executor' },
 ];
 
