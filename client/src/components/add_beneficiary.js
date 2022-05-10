@@ -86,7 +86,7 @@ class Add_Beneficiary extends Component {
 
             <div className="card-ac">
                 <Form onSubmit ={this.resetContract}>
-                    {this.props.cur_address == this.props.owner ? 
+                    {this.props.cur_address === this.props.owner ? 
                     <Button variant="danger" loading={this.state.loading}>
                         Reset the Will
                     </Button> : 
@@ -111,7 +111,7 @@ class Add_Beneficiary extends Component {
             from: this.props.owner
         })
 
-        if (this.state.selectedOption.value == 0){
+        if (this.state.selectedOption.value === 0){
             await this.props.contract.methods.setDate(Number(this.state.selectionValue)).send({
                 from: this.props.owner
             })

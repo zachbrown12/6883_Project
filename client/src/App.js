@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import WillContract from "./contracts/Will.json";
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import getWeb3 from "./getWeb3";
-
-// import add_beneficiary from "./components/add_beneficiary";
+import WillContract from "./contracts/Will.json";
 import Actions from "./components/actions";
 import Assets from "./components/assets";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Add_Beneficiary from "./components/add_beneficiary";
+import AddBeneficiary from "./components/add_beneficiary";
 
 const huygenTest="http://18.182.45.18";
+// const huygenMain="http://13.212.177.203";
+
+const networkOptions = {
+  host: huygenTest,
+  dev: true,
+}
 
 class App extends Component {
   state = { 
@@ -25,39 +29,33 @@ class App extends Component {
 
   componentDidMount = async () => {
     try {
-      // Get network provider and aleerium instance.
+      // check if Ale wallet is available
       if (typeof window["aleereum"] == "undefined"){
         console.log("Ale wallet not found");
       }
+
+      // get network provider
       const provider = window["aleereum"];
-      console.log(provider);
-      const connectStatus = await provider.connect() 
-      console.log(connectStatus);
+      console.log("provider details ", provider);
+      const connectStatus = await provider.connect();
+      console.log("connection status ", connectStatus);
 
       //Connect to mcp
-      const options = {
-        host: huygenTest,
-        dev: true,
-      }
-
       let Mcp = require("mcp.js");
-      let mcp = new Mcp(options); 
+      let mcp = new Mcp(networkOptions); 
 
       mcp.request.status().then(function (res) {
         console.log(`status`,res);
       }).catch(function(error){
           console.log("accountList catch",error);
       })
+      console.log("mcp details ", mcp);
 
-      console.log(mcp);
-
+      // grab the contract
       mcp.Contract.setProvider(huygenTest);
       const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6";
-
       const contract = new mcp.Contract(WillContract.abi, core);
-
-      console.log(contract);
-
+      console.log("contract details ", contract);
 
       // const connectStatus = await provider.connect() 
       // console.log(connectStatus)
@@ -79,9 +77,8 @@ class App extends Component {
       
       contract.methods.owner().call()
       .then(res => {
-        console.log(res.toString());
+        console.log("owner address is %s", res.toString());
       })
-      
       
       const owner = await contract.methods.owner().call();
       const address_array = await contract.methods.getAddresses().call();
@@ -92,7 +89,8 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({owner: owner, address_array: address_array, balance: balance, provider: provider, cur_address: account, contract: contract }, console.log(this.state));
+      this.setState({owner: owner, address_array: address_array, balance: balance, 
+                    provider: provider, cur_address: account, contract: contract });
       console.log(this.state)
       await this.getBeneficiaries();
     } catch (error) {
@@ -102,28 +100,23 @@ class App extends Component {
       );
       console.error(error);
     }
-
+    // end of try-catch
   };
 
   getBeneficiaries = async () => {
-
     this.setState({ beneficiaries: [],
                     total_payout: 0,
     })
 
-
     for (let i = 0; i < this.state.address_array.length; i++) {
       const beneficiary = await this.state.contract.methods.beneficiaries(this.state.address_array[i]).call();
-
 
       this.setState(previousState => ({
         beneficiaries: [...previousState.beneficiaries, beneficiary],
         total_payout: parseInt(this.state.total_payout) + parseInt(beneficiary.payout) 
       }));
     }
-    console.log(this.state)
   };
-
 
   createNewBen = async (address) => {
     const beneficiary = await this.state.contract.methods.beneficiaries(address).call();
@@ -137,7 +130,6 @@ class App extends Component {
   }
 
   executeWill = async () => {
-
     // execute the will if it hasn't been executed yet
     for (var i = 0; i < this.state.address_array.length; i++) {
       const ben_address = this.state.address_array[i];
@@ -151,14 +143,13 @@ class App extends Component {
     window.location.reload(false);
   }
 
-
   render() {
-    //if (!this.state.provider) {
-    //  return <div>Loading Web3, accounts, and contract...</div>;
-    //}
+    if (!this.state.provider) {
+     return <div><h3>Loading Web3, accounts, and contract...</h3></div>;
+    }
     return (
       <div className="App">
-        <Add_Beneficiary
+        <AddBeneficiary
           owner = {this.state.owner}
           contract = {this.state.contract}
           addresses = {this.state.address_array}
@@ -170,24 +161,24 @@ class App extends Component {
           execWill = {this.executeWill}
         />
         <div className="Actions">
-        <Actions 
-          owner = {this.state.owner}
-          contract = {this.state.contract}
-          beneficiaries = {this.state.beneficiaries}
-          updatePayout = {this.getBeneficiaries}
-        />
+          <Actions 
+            owner = {this.state.owner}
+            contract = {this.state.contract}
+            beneficiaries = {this.state.beneficiaries}
+            updatePayout = {this.getBeneficiaries}
+          />
         </div>
-        <div classname ="Assets">
-        <Assets 
-          owner = {this.state.owner}
-          contract = {this.state.contract}
-          beneficiaries = {this.state.beneficiaries}
-          balance = {this.state.balance}
-          web3 = {this.state.web3}
-          cur_address = {this.state.cur_address}
-          provider = {this.state.provider}
-          total_payout = {this.state.total_payout}
-        />
+        <div className ="Assets">
+          <Assets 
+            owner = {this.state.owner}
+            contract = {this.state.contract}
+            beneficiaries = {this.state.beneficiaries}
+            balance = {this.state.balance}
+            web3 = {this.state.web3}
+            cur_address = {this.state.cur_address}
+            provider = {this.state.provider}
+            total_payout = {this.state.total_payout}
+          />
         </div>
       </div>
     );
