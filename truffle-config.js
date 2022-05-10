@@ -26,7 +26,7 @@ module.exports = {
     },
     huygens: { 
       networkCheckTimeout: 10000,
-      provider: () => new HDWalletProvider([privateKey], `https://huygens.computecoin.network`),
+      provider: () => new HDWalletProvider([privateKey], `http://13.212.177.203:8765`),
       network_id: 828,
       confirmations: 10,
       timeoutBlocks: 20,
@@ -36,8 +36,8 @@ module.exports = {
       provider: () => new HDWalletProvider(
         {
           privateKeys: [privateKey], 
-          providerOrUrl: `18.182.45.18`
-          //providerOrUrl: `https://test-huygens.computecoin.info`
+          //providerOrUrl: `18.182.45.18`
+          providerOrUrl: `http://18.182.45.18:8765`
         }
           ),
       networkCheckTimeout: 100000,

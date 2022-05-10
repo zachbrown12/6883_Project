@@ -91,8 +91,12 @@ class ActionCard extends Component {
         console.log(payout);
         const address = this.props.beneficiary.ben_address
 
-        await this.props.contract.methods.updatePayout(address, payout).send({
-            from: this.props.owner
+        await this.props.contract.methods.updatePayout(address, payout).sendBlock({
+            from: this.props.owner,
+            password: 'mypassword',
+            amount: '0',
+            gas_price: '20000000000',
+            gas:'2000000',
         })
 
         this.props.updatePayout(payout);

@@ -8,6 +8,8 @@ import Assets from "./components/assets";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Add_Beneficiary from "./components/add_beneficiary";
 
+const huygenTest="http://18.182.45.18";
+
 class App extends Component {
   state = { 
     owner: "",
@@ -37,52 +39,22 @@ class App extends Component {
       const options = {
         host: providerAddress,
         //port: 8765,
-        dev: true
     }
 
       let Mcp = require("mcp.js");
       let mcp = new Mcp(options); 
 
-      mcp.request.status().then(function (res) {
-        console.log(`status`,res);
-    }).catch(function(error){
-        console.log("accountList catch",error)
-    })
-
-      console.log(mcp)
-
-      mcp.Contract.setProvider(providerAddress)
-      //mcp.Contract.setProvider(providerAddress)
+      //Create contract instance
+      mcp.Contract.setProvider(huygenTest)
       const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
 
-      const contract = new mcp.Contract(WillContract.abi, providerAddress && core)
+      const contract = new mcp.Contract(WillContract.abi, core)
       console.log(contract)
 
-      const connectStatus = await provider.connect()
+      await provider.connect()
 
-      //const web3 = await getWeb3();
-      // Use web3 to get the user's accounts.
-      //const accounts = await web3.eth.getAccounts();
-
-      //console.log(web3, accounts);
-      // Get the contract instance.
-      //const networkId = await web3.eth.net.getId();
-      //const deployedNetwork = WillContract.networks[networkId];
-      //console.log(networkId, deployedNetwork);
-      //const contract = new web3.eth.Contract(
-      //  WillContract.abi,
-      //  deployedNetwork && deployedNetwork.address,
-      //);
-      //contract.options.address = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
-
-      contract.methods.owner().call()
-      .then(res => {
-        console.log(res.toString());
-      })
-      
-      
+      //Set initial variables
       const owner = await contract.methods.owner().call();
-      console.log(owner)
       const address_array = await contract.methods.getAddresses().call();
       const account = await provider.account
       const balance = await provider.getBalance(account)
@@ -97,7 +69,7 @@ class App extends Component {
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load provider, accounts, or contract. Check console for details.`,
       );
       console.error(error);
     }
@@ -152,9 +124,6 @@ class App extends Component {
 
 
   render() {
-    //if (!this.state.provider) {
-    //  return <div>Loading Web3, accounts, and contract...</div>;
-    //}
     return (
       <div className="App">
         <Add_Beneficiary
