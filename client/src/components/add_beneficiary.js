@@ -23,7 +23,7 @@ class Add_Beneficiary extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { 
+        this.state = {
             name: "",
             address: "",
             errorMessage: "",
@@ -42,7 +42,7 @@ class Add_Beneficiary extends Component {
     render() {
 
     return (
-        // <div className="add-b"> 
+        // <div className="add-b">
             // <h1>Smart Will</h1>
         <div className ="add-b-form" style={headingStyle}>
             <h1>Smart Will</h1>
@@ -67,11 +67,11 @@ class Add_Beneficiary extends Component {
                 <Message error header="Oops!" content={this.state.errorMessage} />
 
                 <InputGroup className="mb-3">
-                    <Select 
-                        options={options} 
+                    <Select
+                        options={options}
                         value={this.state.selectedOption}
-                        onChange={this.handleChange} 
-                        placeholder="Select an option" 
+                        onChange={this.handleChange}
+                        placeholder="Select an option"
                     />
                     <Input
                         placeholder="Enter Selection Value"
@@ -86,10 +86,10 @@ class Add_Beneficiary extends Component {
 
             <div className="card-ac">
                 <Form onSubmit ={this.resetContract}>
-                    {this.props.cur_address === this.props.owner ? 
+                    {this.props.cur_address === this.props.owner ?
                     <Button variant="danger" loading={this.state.loading}>
                         Reset the Will
-                    </Button> : 
+                    </Button> :
                     ""}
                 </Form>
             </div>
@@ -102,22 +102,42 @@ class Add_Beneficiary extends Component {
 
         const { name, address } = this.state
         this.setState({ loading: true, errorMessage: "" });
-
-        await this.props.contract.methods.addBeneficiary(name, address).send({
-            from: this.props.owner
+        console.log(name, address)
+        console.log(this.props)
+        console.log(this.state)
+        await this.props.contract.methods.addBeneficiary(name, address).sendBlock({
+            from: this.props.owner,
+            password: 'mypassword',
+            amount: '0',
+            gas_price: '20000000000',
+            gas:'2000000',
         })
+        console.log(this.state)
 
-        await this.props.contract.methods.updateExecutionType(this.state.selectedOption.value).send({
-            from: this.props.owner
+        await this.props.contract.methods.updateExecutionType(this.state.selectedOption.value).sendBlock({
+            from: this.props.owner,
+            password: 'mypassword',
+            amount: '0',
+            gas_price: '20000000000',
+            gas:'2000000',
         })
+        console.log(this.state)
 
         if (this.state.selectedOption.value === 0){
-            await this.props.contract.methods.setDate(Number(this.state.selectionValue)).send({
-                from: this.props.owner
+            await this.props.contract.methods.setDate(Number(this.state.selectionValue)).sendBlock({
+                from: this.props.owner,
+                password: 'mypassword',
+                amount: '10',
+                gas_price: '20000000000',
+                gas:'2000000',
             })
         } else {
-            await this.props.contract.methods.setExecutor(this.state.selectionValue).send({
-                from: this.props.owner
+            await this.props.contract.methods.setExecutor(this.state.selectionValue).sendBlock({
+                from: this.props.owner,
+                password: 'mypassword',
+                amount: '10',
+                gas_price: '20000000000',
+                gas:'2000000',
             })
         }
 
@@ -132,8 +152,13 @@ class Add_Beneficiary extends Component {
 
         this.setState({ loading: true, errorMessage: "" });
 
-        await this.props.contract.methods.resetContract().send({
-            from: this.props.owner
+        await this.props.contract.methods.resetContract().sendBlock({
+            from: this.props.owner,
+            password: 'mypassword',
+            amount: '0',
+            gas_price: '20000000000',
+            gas:'2000000',
+
         })
 
         this.setState({ loading: false });

@@ -11,20 +11,20 @@ module.exports = {
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 8765,            // Standard Huygen port (default: none)
-      network_id: "*",   
+      network_id: "*",
       //port: 8545 used this when using rinkeyby
     },
     rinkeby: {
-      provider: function() { 
+      provider: function() {
        return new HDWalletProvider(
-        "churn liquid utility repeat advance rabbit cup width dress faith fatal retreat" 
+        "churn liquid utility repeat advance rabbit cup width dress faith fatal retreat"
         ,"https://rinkeby.infura.io/v3/7bc36352f62642aaa6e0d6bbf3d99eef");
       },
       network_id: 4,
       gas: 4500000,
       gasPrice: 10000000000,
     },
-    huygens: { 
+    huygens: {
       networkCheckTimeout: 10000,
       provider: () => new HDWalletProvider([privateKey], `http://13.212.177.203:8765`),
       network_id: 828,
@@ -35,7 +35,7 @@ module.exports = {
     huygens_dev: {
       provider: () => new HDWalletProvider(
         {
-          privateKeys: [privateKey], 
+          privateKeys: [privateKey],
           providerOrUrl: `http://18.182.45.18:8765`
         }
           ),

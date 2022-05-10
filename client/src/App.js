@@ -14,17 +14,19 @@ const networkOptions = {
   dev: true,
 }
 
+const huygenTest="http://18.182.45.18";
+
 class App extends Component {
-  state = { 
+  state = {
     owner: "",
     address_array: [],
     beneficiaries: [],
     balance: 0,
     total_payout: 0,
-    web3: null, 
+    web3: null,
     provider: null,
     cur_address: null,
-    accounts: null, 
+    accounts: null,
     contract: null };
 
   componentDidMount = async () => {
@@ -40,9 +42,11 @@ class App extends Component {
       const connectStatus = await provider.connect();
       console.log("connection status ", connectStatus);
 
+      const providerAddress = "18.182.45.18"
+
       //Connect to mcp
       let Mcp = require("mcp.js");
-      let mcp = new Mcp(networkOptions); 
+      let mcp = new Mcp(networkOptions);
 
       mcp.request.status().then(function (res) {
         console.log(`status`,res);
@@ -57,29 +61,9 @@ class App extends Component {
       const contract = new mcp.Contract(WillContract.abi, core);
       console.log("contract details ", contract);
 
-      // const connectStatus = await provider.connect() 
-      // console.log(connectStatus)
+      await provider.connect()
 
-      //const web3 = await getWeb3();
-      // Use web3 to get the user's accounts.
-      //const accounts = await web3.eth.getAccounts();
-
-      //console.log(web3, accounts);
-      // Get the contract instance.
-      //const networkId = await web3.eth.net.getId();
-      //const deployedNetwork = WillContract.networks[networkId];
-      //console.log(networkId, deployedNetwork);
-      //const contract = new web3.eth.Contract(
-      //  WillContract.abi,
-      //  deployedNetwork && deployedNetwork.address,
-      //);
-      //contract.options.address = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"
-      
-      contract.methods.owner().call()
-      .then(res => {
-        console.log("owner address is %s", res.toString());
-      })
-      
+      //Set initial variables
       const owner = await contract.methods.owner().call();
       const address_array = await contract.methods.getAddresses().call();
       const account = await provider.account
@@ -89,14 +73,14 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({owner: owner, address_array: address_array, balance: balance, 
+      this.setState({owner: owner, address_array: address_array, balance: balance,
                     provider: provider, cur_address: account, contract: contract });
       console.log(this.state)
       await this.getBeneficiaries();
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load provider, accounts, or contract. Check console for details.`,
       );
       console.error(error);
     }
@@ -113,14 +97,14 @@ class App extends Component {
 
       this.setState(previousState => ({
         beneficiaries: [...previousState.beneficiaries, beneficiary],
-        total_payout: parseInt(this.state.total_payout) + parseInt(beneficiary.payout) 
+        total_payout: parseInt(this.state.total_payout) + parseInt(beneficiary.payout)
       }));
     }
   };
 
   createNewBen = async (address) => {
     const beneficiary = await this.state.contract.methods.beneficiaries(address).call();
-    
+
     this.setState(previousState => ({
       address_array: [...previousState.address_array, address],
       beneficiaries: [...previousState.beneficiaries, beneficiary],
@@ -144,9 +128,6 @@ class App extends Component {
   }
 
   render() {
-    if (!this.state.provider) {
-     return <div><h3>Loading Web3, accounts, and contract...</h3></div>;
-    }
     return (
       <div className="App">
         <AddBeneficiary
@@ -161,7 +142,7 @@ class App extends Component {
           execWill = {this.executeWill}
         />
         <div className="Actions">
-          <Actions 
+          <Actions
             owner = {this.state.owner}
             contract = {this.state.contract}
             beneficiaries = {this.state.beneficiaries}
@@ -169,7 +150,7 @@ class App extends Component {
           />
         </div>
         <div className ="Assets">
-          <Assets 
+          <Assets
             owner = {this.state.owner}
             contract = {this.state.contract}
             beneficiaries = {this.state.beneficiaries}
