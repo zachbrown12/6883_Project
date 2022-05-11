@@ -54,7 +54,7 @@ class App extends Component {
 
       // grab the contract
       mcp.Contract.setProvider(huygenTest);
-      const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6";
+      const core = "0x7c64828772A658D164E76D328DF24a41E7A8647d";
       // const core = "0x23a6584d44a1b7F91de62dB03726D781Dae8c8e4";
       const contract = new mcp.Contract(WillContract.abi, core);
       console.log("contract details ", contract);

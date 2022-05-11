@@ -18,7 +18,7 @@ const Assets = (props) => {
             <div className="card text-dark bg-light mb-2">
                 <h2>Current Will's Information</h2>
                 <ListGroup>
-                    <ListGroup.Item>Contract Address: {"0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6"} </ListGroup.Item>
+                    <ListGroup.Item>Contract Address: {"0x7c64828772A658D164E76D328DF24a41E7A8647d"} </ListGroup.Item>
                     <ListGroup.Item>Testator Address: {props.owner} </ListGroup.Item>
                     <ListGroup.Item>Payout for this will: {props.total_payout} Wei </ListGroup.Item>
                 </ ListGroup>
