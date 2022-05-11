@@ -19,6 +19,7 @@ class App extends Component {
     owner: "",
     address_array: [],
     beneficiaries: [],
+    executor: "",
     balance: 0,
     total_payout: 0,
     web3: null,
@@ -54,6 +55,7 @@ class App extends Component {
       // grab the contract
       mcp.Contract.setProvider(huygenTest);
       const core = "0x126d84BF66F8b3018DA6B575d9cD5Fb1228150F6";
+      // const core = "0x23a6584d44a1b7F91de62dB03726D781Dae8c8e4";
       const contract = new mcp.Contract(WillContract.abi, core);
       console.log("contract details ", contract);
 
@@ -62,15 +64,17 @@ class App extends Component {
       //Set initial variables
       const owner = await contract.methods.owner().call();
       const address_array = await contract.methods.getAddresses().call();
-      const account = await provider.account
-      let balance = await provider.getBalance(account)
-      balance = balance.balance
+      const executor = await contract.methods.executor().call();
+      const account = await provider.account;
+
+      let balance = await provider.getBalance(account);
+      balance = balance.balance;
 
       //const balance = await web3.eth.getBalance(owner);
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({owner: owner, address_array: address_array, balance: balance,
+      this.setState({owner: owner, address_array: address_array, executor: executor, balance: balance,
                     provider: provider, cur_address: account, contract: contract });
       console.log(this.state)
       await this.getBeneficiaries();
@@ -113,19 +117,19 @@ class App extends Component {
     console.log(this.state)
   }
 
-  executeWill = async () => {
-    // execute the will if it hasn't been executed yet
-    for (var i = 0; i < this.state.address_array.length; i++) {
-      const ben_address = this.state.address_array[i];
+  // executeWill = async () => {
+  //   // execute the will if it hasn't been executed yet
+  //   for (var i = 0; i < this.state.address_array.length; i++) {
+  //     const ben_address = this.state.address_array[i];
 
-        console.log(ben_address)
-      await this.state.contract.methods.executeWill(ben_address).send({
-        from: this.state.owner,
-        value: this.state.beneficiaries[i].payout
-      });
-    }
-    window.location.reload(false);
-  }
+  //       console.log(ben_address)
+  //     await this.state.contract.methods.executeWill(ben_address).send({
+  //       from: this.state.owner,
+  //       value: this.state.beneficiaries[i].payout
+  //     });
+  //   }
+  //   window.location.reload(false);
+  // }
 
   render() {
     return (
@@ -139,11 +143,13 @@ class App extends Component {
           provider = {this.state.provider}
           cur_address = {this.state.cur_address}
           createNewBen = {this.createNewBen}
-          execWill = {this.executeWill}
+          // execWill = {this.executeWill}
         />
         <div className="Actions">
           <Actions
             owner = {this.state.owner}
+            cur_address = {this.state.cur_address}
+            executor = {this.state.executor}
             contract = {this.state.contract}
             beneficiaries = {this.state.beneficiaries}
             updatePayout = {this.getBeneficiaries}
@@ -152,6 +158,7 @@ class App extends Component {
         <div className ="Assets">
           <Assets
             owner = {this.state.owner}
+            executor = {this.state.executor}
             contract = {this.state.contract}
             beneficiaries = {this.state.beneficiaries}
             balance = {this.state.balance}

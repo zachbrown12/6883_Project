@@ -120,7 +120,7 @@ class Add_Beneficiary extends Component {
             await this.props.contract.methods.setDate(Number(this.state.selectionValue)).sendBlock({
                 from: this.props.owner,
                 password: userData["password"],
-                amount: '10',
+                amount: '0',
                 gas_price: '20000000000',
                 gas:'2000000',
             })
@@ -128,7 +128,7 @@ class Add_Beneficiary extends Component {
             await this.props.contract.methods.setExecutor(this.state.selectionValue).sendBlock({
                 from: this.props.owner,
                 password: userData["password"],
-                amount: '10',
+                amount: '0',
                 gas_price: '20000000000',
                 gas:'2000000',
             })

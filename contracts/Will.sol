@@ -18,25 +18,19 @@ contract Will {
     address public executor;
     address[] public address_array;
     uint public delayedDays;
-    uint executionType;
+    uint public executionType;
     mapping(address => Beneficiary) public beneficiaries;
-    // bool isExercised;
+
+    event distributed(address indexed _from, string _input);
 
     constructor() public {
         owner = msg.sender;
-        // isExercised = false;
-        //msg.data, msg.sender, msg.value. msg.gas are options
     }
 
     modifier restricted() {
         require(msg.sender == owner);
         _;
     }
-
-    // modifier restrictedWill() {
-    //     require(msg.sender == owner && isExercised == false);
-    //     _;
-    // }
     
     function addBeneficiary(string memory name, address ben_address) public restricted {
         Beneficiary memory newBeneficiary = Beneficiary({
@@ -71,22 +65,35 @@ contract Will {
     function claimWill() public {
         require(executionType == 0);
         require(beneficiaries[msg.sender].isExercised == false);
-        executeWill(msg.sender);
+        emit distributed(msg.sender, "beneficiary claimed the will");
+
+        sendPayment(msg.sender);
     }
 
     function executeWill() public {
         require(executionType == 1);
         require(msg.sender == executor);
-        executeWill(msg.sender);
+        emit distributed(msg.sender, "executor executed the will");
+
+        for (uint i = 0; i < address_array.length; i++){
+            if (!beneficiaries[address_array[i]].isExercised){
+                sendPayment(address_array[i]);
+            }
+        }
     }
 
     function executeWill(address ben_address) public payable restricted {
-        // isExercised = true;
         // make sure the will hasn't been executed yet
-        require(beneficiaries[ben_address].isExercised == false);
+        // require(beneficiaries[ben_address].isExercised == false);
         
+        // address payable ben_address_pay = address(uint160(ben_address));
+        // ben_address_pay.transfer(address(this).balance);
+        // beneficiaries[ben_address].isExercised = true;
+        sendPayment(ben_address);
+    }
+
+    function sendPayment(address ben_address) internal {  
         address payable ben_address_pay = address(uint160(ben_address));
-        // Beneficiary storage cur_ben = beneficiaries[ben_address];
         ben_address_pay.transfer(address(this).balance);
         beneficiaries[ben_address].isExercised = true;
     }

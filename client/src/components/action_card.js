@@ -19,10 +19,18 @@ class ActionCard extends Component {
             return (
                 <div className="card-ac">
                     <div key={this.props.index} class="card text-dark bg-light mb-3">
-                        <h4>Deployed Will</h4>
+                        <h4>{(this.props.beneficiary.isExercised) ? "Executed Will" : "Deployed Will"}</h4>
                         Name: {this.props.beneficiary.name}<br></br>
                         Address: {this.props.beneficiary.ben_address}<br></br>
                         Payout: {this.props.beneficiary.payout} Wei<br></br>
+
+                        <Form onSubmit ={(event) => this.executeWill(event)}>
+                            {/* <InputGroup className="mb-3"> */}
+                            {(this.props.beneficiary.ben_address === this.props.cur_address) ? <Button variant="outline-success" size="sm" type="submit">Claim Will</Button> : 
+                                (this.props.executor === this.props.cur_address) ? <Button variant="outline-success" size="sm" type="submit">Execute Will</Button> : ""} 
+                            {/* </InputGroup> */}
+                        </Form>
+
                     </div>
                 </div>
             );
@@ -68,6 +76,32 @@ class ActionCard extends Component {
         })
 
         this.props.updatePayout(payout);
+    }
+
+    executeWill = async (event) => {
+        event.preventDefault()
+        
+        if (this.props.executor === this.props.cur_address){
+            console.log("start executing the will")
+            await this.props.contract.methods.executeWill().sendBlock({
+                from: this.props.cur_address,
+                password: userData["password"],
+                amount: '0',
+                gas_price: '20000000000',
+                gas:'2000000',
+            })
+        } else if (this.props.beneficiary.ben_address === this.props.cur_address){
+            console.log("start claiming the will")
+            await this.props.contract.methods.claimWill().sendBlock({
+                from: this.props.cur_address,
+                password: userData["password"],
+                amount: '0',
+                gas_price: '20000000000',
+                gas:'2000000',
+            })
+        } else {
+            // no actions
+        }
     }
 }
 

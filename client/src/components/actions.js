@@ -15,9 +15,11 @@ class Actions extends Component {
             return (
                 <ActionCard
                     owner = {this.props.owner}
+                    cur_address = {this.props.cur_address}
                     key = {index}
                     contract = {this.props.contract}
                     beneficiary = {beneficiaries}
+                    executor = {this.props.executor}
                     updatePayout = {this.props.updatePayout}
                 />
             );

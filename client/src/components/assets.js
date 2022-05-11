@@ -5,11 +5,11 @@ import ListGroup from 'react-bootstrap/ListGroup';
 const Assets = (props) => {
     var myAddress = props.cur_address
     var isBeneficiary = false;
-    var isExecutor = props.owner === myAddress;
+    var isExecutor = props.executor === myAddress;
 
     props.beneficiaries.map((beneficiaries) => {
         if (isBeneficiary === false) {
-            isBeneficiary = beneficiaries === myAddress;
+            isBeneficiary = beneficiaries.ben_address === myAddress;
         }
     });
 
@@ -37,7 +37,6 @@ const Assets = (props) => {
             </div>
         </div>
     )
-
 };
 
 export default Assets
