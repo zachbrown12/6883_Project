@@ -25,10 +25,9 @@ class ActionCard extends Component {
                         Payout: {this.props.beneficiary.payout} Wei<br></br>
 
                         <Form onSubmit ={(event) => this.executeWill(event)}>
-                            {/* <InputGroup className="mb-3"> */}
-                            {(this.props.beneficiary.ben_address === this.props.cur_address) ? <Button variant="outline-success" size="sm" type="submit">Claim Will</Button> : 
+                            {(this.props.beneficiary.isExercised) ? "" : 
+                                (this.props.beneficiary.ben_address === this.props.cur_address) ? <Button variant="outline-success" size="sm" type="submit">Claim Will</Button> : 
                                 (this.props.executor === this.props.cur_address) ? <Button variant="outline-success" size="sm" type="submit">Execute Will</Button> : ""} 
-                            {/* </InputGroup> */}
                         </Form>
 
                     </div>
